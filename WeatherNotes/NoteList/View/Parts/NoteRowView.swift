@@ -11,8 +11,13 @@ struct NoteRowView: View {
                 .frame(width: 30)
 
             VStack(alignment: .leading, spacing: 6) {
+                Text(note.title)
+                    .font(.headline)
+                    .lineLimit(1)
+
                 Text(note.text)
-                    .font(.body)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
                     .lineLimit(2)
 
                 HStack(spacing: 8) {

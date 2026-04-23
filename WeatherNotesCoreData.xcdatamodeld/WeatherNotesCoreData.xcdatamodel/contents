@@ -6,6 +6,7 @@
         <attribute name="location" optional="YES" attributeType="String"/>
         <attribute name="temperature" optional="YES" attributeType="String"/>
         <attribute name="text" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="weatherCondition" optional="YES" attributeType="String"/>
         <attribute name="weatherIcon" optional="YES" attributeType="String"/>
     </entity>

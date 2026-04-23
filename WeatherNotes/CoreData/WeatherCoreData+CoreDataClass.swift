@@ -21,6 +21,7 @@ extension WeatherCoreData {
     @NSManaged public var weatherCondition: String?
     @NSManaged public var weatherIcon: String?
     @NSManaged public var location: String?
+    @NSManaged public var title: String?
 
 }
 

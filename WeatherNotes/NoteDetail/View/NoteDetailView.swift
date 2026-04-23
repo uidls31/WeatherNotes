@@ -1,7 +1,9 @@
 import SwiftUI
 
 struct NoteDetailView: View {
+    @Environment(\.dismiss) private var dismiss
     let note: WeatherNote
+    @ObservedObject var viewModel: NotesViewModel
 
     var body: some View {
         ScrollView {
@@ -9,6 +11,15 @@ struct NoteDetailView: View {
                 weatherCard
 
                 VStack(alignment: .leading, spacing: 10) {
+                    Text("Title")
+                        .font(.headline)
+                        .foregroundStyle(.secondary)
+
+                    Text(note.title)
+                        .font(.title3.weight(.semibold))
+
+                    Divider()
+
                     Text("Note")
                         .font(.headline)
                         .foregroundStyle(.secondary)
@@ -26,6 +37,18 @@ struct NoteDetailView: View {
         }
         .navigationTitle("Note Details")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    viewModel.deleteNote(note)
+                    dismiss()
+                } label: {
+                    Image(systemName: "trash")
+                }
+                .tint(.red)
+                .accessibilityLabel("Delete Note")
+            }
+        }
     }
 
     private var weatherCard: some View {

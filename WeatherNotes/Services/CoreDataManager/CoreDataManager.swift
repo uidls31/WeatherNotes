@@ -23,6 +23,7 @@ final class CoreDataManager {
         context.performAndWait {
             let entity = WeatherCoreData(context: context)
             entity.id = note.id
+            entity.title = note.title
             entity.text = note.text
             entity.date = note.date
             entity.temperature = note.temperature
@@ -50,6 +51,7 @@ final class CoreDataManager {
                 mappedNotes = entities.map { entity in
                     WeatherNote(
                         id: entity.id ?? UUID(),
+                        title: entity.title ?? "",
                         text: entity.text ?? "",
                         date: entity.date ?? Date(),
                         temperature: entity.temperature ?? "",
@@ -66,7 +68,7 @@ final class CoreDataManager {
         return mappedNotes
     }
 
-    func deleteNote(id: UUID) {
+    func deleteNote(with id: UUID) {
         context.performAndWait {
             let request: NSFetchRequest<WeatherCoreData> = WeatherCoreData.fetchRequest()
             request.predicate = NSPredicate(format: "id == %@", id as CVarArg)

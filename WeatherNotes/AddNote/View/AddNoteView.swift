@@ -3,6 +3,7 @@ import SwiftUI
 struct AddNoteView: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var viewModel: NotesViewModel
+    @State private var noteTitle = ""
     @State private var noteText = ""
     @FocusState private var isEditorFocused: Bool
 
@@ -13,6 +14,16 @@ struct AddNoteView: View {
                     .ignoresSafeArea()
 
                 VStack {
+                    TextField("Title", text: $noteTitle)
+                        .textFieldStyle(.plain)
+                        .font(.headline)
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 12)
+                        .background(Color(uiColor: .secondarySystemGroupedBackground))
+                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                        .padding(.horizontal)
+                        .padding(.top)
+
                     ZStack(alignment: .topLeading) {
                         if noteText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                             Text("What's on your mind?")
@@ -47,11 +58,14 @@ struct AddNoteView: View {
 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Save") {
-                        viewModel.addNote(text: noteText)
+                        viewModel.addNote(title: noteTitle, text: noteText)
                         dismiss()
                     }
                     .fontWeight(.bold)
-                    .disabled(noteText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    .disabled(
+                        noteTitle.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+                        noteText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                    )
                 }
             }
             .onAppear {

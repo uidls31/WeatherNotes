@@ -25,7 +25,7 @@ struct NotesListView: View {
                 } else {
                     List(viewModel.notes) { note in
                         NavigationLink {
-                            NoteDetailView(note: note)
+                            NoteDetailView(note: note, viewModel: viewModel)
                         } label: {
                             NoteRowView(note: note)
                         }

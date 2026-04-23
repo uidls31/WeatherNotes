@@ -13,15 +13,17 @@ final class NotesViewModel: ObservableObject {
         self.notes = coreDataManager.fetchNotes()
     }
     
-    func addNote(text: String) {
+    func addNote(title: String, text: String) {
+        let trimmedTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
         let trimmedText = text.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmedText.isEmpty else { return }
+        guard !trimmedTitle.isEmpty, !trimmedText.isEmpty else { return }
         
         Task {
             do {
                 let weather = try await weatherService.fetchWeather(city: "Kyiv")
                 let newNote = WeatherNote(
                     id: UUID(),
+                    title: trimmedTitle,
                     text: trimmedText,
                     date: Date(),
                     temperature:  weather.temperature,
@@ -38,5 +40,10 @@ final class NotesViewModel: ObservableObject {
                 print("Failed to fetch weather: \(error.localizedDescription)")
             }
         }
+    }
+
+    func deleteNote(_ note: WeatherNote) {
+        coreDataManager.deleteNote(with: note.id)
+        notes.removeAll { $0.id == note.id }
     }
 }
