@@ -19,7 +19,8 @@ final class CoreDataManager {
         container.viewContext
     }
 
-    func saveNote(_ note: WeatherNote) {
+    func saveNote(_ note: WeatherNote) throws {
+        var thrownError: Error?
         context.performAndWait {
             let entity = WeatherCoreData(context: context)
             entity.id = note.id
@@ -35,8 +36,10 @@ final class CoreDataManager {
                 try context.save()
             } catch {
                 print("Failed to save note: \(error.localizedDescription)")
+                thrownError = error
             }
         }
+        if let thrownError { throw thrownError }
     }
 
     func fetchNotes() -> [WeatherNote] {
@@ -83,5 +86,9 @@ final class CoreDataManager {
                 print("Failed to delete note: \(error.localizedDescription)")
             }
         }
+    }
+
+    func deleteNote(id: UUID) {
+        deleteNote(with: id)
     }
 }

@@ -2,9 +2,8 @@ import SwiftUI
 
 struct AddNoteView: View {
     @Environment(\.dismiss) private var dismiss
-    @ObservedObject var viewModel: NotesViewModel
-    @State private var noteTitle = ""
-    @State private var noteText = ""
+    @StateObject private var viewModel = AddNoteViewModel()
+    let onSave: () -> Void
     @FocusState private var isEditorFocused: Bool
 
     var body: some View {
@@ -13,7 +12,7 @@ struct AddNoteView: View {
                 AppGradientBackground(gradient: AppGradients.aurora)
 
                 VStack {
-                    TextField("Title", text: $noteTitle)
+                    TextField("Title", text: $viewModel.noteTitle)
                         .textFieldStyle(.plain)
                         .font(.headline)
                         .padding(.horizontal, 14)
@@ -28,14 +27,14 @@ struct AddNoteView: View {
                         .padding(.top)
 
                     ZStack(alignment: .topLeading) {
-                        if noteText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        if viewModel.noteText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                             Text("What's on your mind?")
                                 .foregroundStyle(.secondary)
                                 .padding(.horizontal, 14)
                                 .padding(.vertical, 16)
                         }
 
-                        TextEditor(text: $noteText)
+                        TextEditor(text: $viewModel.noteText)
                             .focused($isEditorFocused)
                             .scrollContentBackground(.hidden)
                             .padding(.horizontal, 10)
@@ -65,18 +64,25 @@ struct AddNoteView: View {
 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Save") {
-                        viewModel.addNote(title: noteTitle, text: noteText)
-                        dismiss()
+                        Task {
+                            let isSuccess = await viewModel.saveNote()
+                            if isSuccess {
+                                onSave()
+                                dismiss()
+                            }
+                        }
                     }
                     .fontWeight(.bold)
-                    .disabled(
-                        noteTitle.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
-                        noteText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-                    )
+                    .disabled(!viewModel.canSave)
                 }
             }
             .onAppear {
                 isEditorFocused = true
+            }
+            .alert("Error", isPresented: $viewModel.showError) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text(viewModel.errorMessage)
             }
         }
     }

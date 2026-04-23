@@ -5,6 +5,7 @@ enum WeatherError: Error, LocalizedError {
     case networkError(Error)
     case invalidResponse
     case decodingError(Error)
+    case missingRequiredData
 
     var errorDescription: String? {
         switch self {
@@ -16,6 +17,8 @@ enum WeatherError: Error, LocalizedError {
             return "Received an invalid server response."
         case .decodingError(let error):
             return "Failed to decode weather response: \(error.localizedDescription)"
+        case .missingRequiredData:
+            return "Weather data is incomplete."
         }
     }
 }

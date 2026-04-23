@@ -2,8 +2,11 @@ import SwiftUI
 
 struct NoteDetailView: View {
     @Environment(\.dismiss) private var dismiss
-    let note: WeatherNote
-    @ObservedObject var viewModel: NotesViewModel
+    @StateObject private var viewModel: NoteDetailViewModel
+
+    init(note: WeatherNote) {
+        _viewModel = StateObject(wrappedValue: NoteDetailViewModel(note: note))
+    }
 
     var body: some View {
         ZStack {
@@ -18,7 +21,7 @@ struct NoteDetailView: View {
                             .font(.headline)
                             .foregroundStyle(.secondary)
 
-                        Text(note.title)
+                        Text(viewModel.note.title)
                             .font(.title3.weight(.semibold))
 
                         Divider()
@@ -27,7 +30,7 @@ struct NoteDetailView: View {
                             .font(.headline)
                             .foregroundStyle(.secondary)
 
-                        Text(note.text)
+                        Text(viewModel.note.text)
                             .font(.body)
                             .fixedSize(horizontal: false, vertical: true)
                     }
@@ -48,7 +51,7 @@ struct NoteDetailView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    viewModel.deleteNote(note)
+                    viewModel.deleteNote()
                     dismiss()
                 } label: {
                     Image(systemName: "trash")
@@ -62,23 +65,23 @@ struct NoteDetailView: View {
     private var weatherCard: some View {
         VStack(alignment: .leading, spacing: 14) {
             HStack(alignment: .firstTextBaseline) {
-                Text(note.temperature)
+                Text(viewModel.note.temperature)
                     .font(.system(size: 42, weight: .bold, design: .rounded))
 
                 Spacer()
 
-                Image(systemName: note.weatherIcon)
+                Image(systemName: viewModel.note.weatherIcon)
                     .font(.system(size: 44))
                     .foregroundStyle(.orange)
             }
 
-            Text(note.weatherCondition)
+            Text(viewModel.note.weatherCondition)
                 .font(.title3.weight(.semibold))
 
             HStack {
-                Label(note.location, systemImage: "mappin.and.ellipse")
+                Label(viewModel.note.location, systemImage: "mappin.and.ellipse")
                 Spacer()
-                Text(note.date.formatted(date: .abbreviated, time: .shortened))
+                Text(viewModel.note.date.formatted(date: .abbreviated, time: .shortened))
             }
             .font(.subheadline)
             .foregroundStyle(.secondary)

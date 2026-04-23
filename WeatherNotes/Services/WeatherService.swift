@@ -44,20 +44,28 @@ struct WeatherService: WeatherServiceProtocol {
         
         let mainInfo = weatherResponse.main
         let weatherInfo = weatherResponse.weather?.first
-        
-        let tempValue = mainInfo?.temp ?? 0.0
+
+        guard let tempValue = mainInfo?.temp,
+              let weatherInfo,
+              let iconCode = weatherInfo.icon,
+              let location = weatherResponse.name,
+              !location.isEmpty else {
+            throw WeatherError.missingRequiredData
+        }
+
+        let rawCondition = weatherInfo.main?.isEmpty == false ? weatherInfo.main : weatherInfo.description
+        guard let condition = rawCondition, !condition.isEmpty else {
+            throw WeatherError.missingRequiredData
+        }
+
         let tempInt = Int(round(tempValue))
         let tempString = tempInt > 0 ? "+\(tempInt)°C" : "\(tempInt)°C"
-        
-        let condition = (weatherInfo?.main?.isEmpty ?? true)
-        ? (weatherInfo?.description ?? "Unknown")
-        : (weatherInfo?.main ?? "Unknown")
-        
+
         return (
             temperature: tempString,
             condition: condition.capitalized,
-            icon: mapIconCodeToSFSymbol(weatherInfo?.icon ?? ""),
-            location: weatherResponse.name ?? city
+            icon: mapIconCodeToSFSymbol(iconCode),
+            location: location
         )
     }
     

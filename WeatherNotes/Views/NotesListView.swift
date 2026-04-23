@@ -29,7 +29,7 @@ struct NotesListView: View {
                     } else {
                         List(viewModel.notes) { note in
                             NavigationLink {
-                                NoteDetailView(note: note, viewModel: viewModel)
+                                NoteDetailView(note: note)
                             } label: {
                                 NoteRowView(note: note)
                             }
@@ -55,12 +55,12 @@ struct NotesListView: View {
                 }
             }
             .sheet(isPresented: $isShowingAddNote) {
-                AddNoteView(viewModel: viewModel)
+                AddNoteView {
+                    viewModel.fetchNotes()
+                }
             }
-            .alert("Error", isPresented: $viewModel.showError) {
-                Button("OK", role: .cancel) {}
-            } message: {
-                Text(viewModel.errorMessage)
+            .onAppear {
+                viewModel.fetchNotes()
             }
         }
     }
