@@ -67,9 +67,3 @@ struct NoteDetailView: View {
         .clipShape(RoundedRectangle(cornerRadius: 18))
     }
 }
-
-#Preview {
-    NavigationStack {
-        NoteDetailView(note: WeatherNote.mockData[0])
-    }
-}
