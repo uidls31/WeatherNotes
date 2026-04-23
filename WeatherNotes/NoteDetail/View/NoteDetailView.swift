@@ -6,34 +6,42 @@ struct NoteDetailView: View {
     @ObservedObject var viewModel: NotesViewModel
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                weatherCard
+        ZStack {
+            AppGradientBackground(gradient: AppGradients.aurora)
 
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("Title")
-                        .font(.headline)
-                        .foregroundStyle(.secondary)
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    weatherCard
 
-                    Text(note.title)
-                        .font(.title3.weight(.semibold))
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Title")
+                            .font(.headline)
+                            .foregroundStyle(.secondary)
 
-                    Divider()
+                        Text(note.title)
+                            .font(.title3.weight(.semibold))
 
-                    Text("Note")
-                        .font(.headline)
-                        .foregroundStyle(.secondary)
+                        Divider()
 
-                    Text(note.text)
-                        .font(.body)
-                        .fixedSize(horizontal: false, vertical: true)
+                        Text("Note")
+                            .font(.headline)
+                            .foregroundStyle(.secondary)
+
+                        Text(note.text)
+                            .font(.body)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(.ultraThinMaterial)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                    }
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
                 }
                 .padding()
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color(uiColor: .secondarySystemBackground))
-                .clipShape(RoundedRectangle(cornerRadius: 16))
             }
-            .padding()
         }
         .navigationTitle("Note Details")
         .navigationBarTitleDisplayMode(.inline)
@@ -78,15 +86,15 @@ struct NoteDetailView: View {
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(
-            LinearGradient(
-                colors: [
-                    Color(uiColor: .secondarySystemBackground),
-                    Color(uiColor: .tertiarySystemBackground)
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
+            AppGradients.sunset
+                .opacity(0.35)
+                .overlay(.thinMaterial)
         )
+        .overlay {
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                .stroke(Color.white.opacity(0.22), lineWidth: 1)
+        }
         .clipShape(RoundedRectangle(cornerRadius: 18))
+        .shadow(color: .black.opacity(0.15), radius: 14, x: 0, y: 8)
     }
 }

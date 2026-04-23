@@ -20,7 +20,7 @@ final class NotesViewModel: ObservableObject {
         
         Task {
             do {
-                let weather = try await weatherService.fetchWeather(city: "Kyiv")
+                let weather = try await weatherService.fetchWeather(city: "London")
                 let newNote = WeatherNote(
                     id: UUID(),
                     title: trimmedTitle,

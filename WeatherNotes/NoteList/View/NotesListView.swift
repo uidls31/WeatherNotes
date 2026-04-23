@@ -6,32 +6,40 @@ struct NotesListView: View {
     
     var body: some View {
         NavigationStack {
-            Group {
-                if viewModel.notes.isEmpty {
-                    VStack(spacing: 14) {
-                        Image(systemName: "note.text.badge.plus")
-                            .font(.system(size: 54))
-                            .symbolRenderingMode(.multicolor)
-                        
-                        Text("No Weather Notes Yet")
-                            .font(.title3.weight(.semibold))
-                        
-                        Text("Tap the '+' button to record your first note with local weather.")
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal, 28)
-                    }
-                } else {
-                    List(viewModel.notes) { note in
-                        NavigationLink {
-                            NoteDetailView(note: note, viewModel: viewModel)
-                        } label: {
-                            NoteRowView(note: note)
+            ZStack {
+                AppGradientBackground(gradient: AppGradients.aurora)
+
+                Group {
+                    if viewModel.notes.isEmpty {
+                        VStack(spacing: 14) {
+                            Image(systemName: "note.text.badge.plus")
+                                .font(.system(size: 54))
+                                .symbolRenderingMode(.multicolor)
+                            
+                            Text("No Weather Notes Yet")
+                                .font(.title3.weight(.semibold))
+                            
+                            Text("Tap the '+' button to record your first note with local weather.")
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal, 28)
                         }
-                        .listRowInsets(EdgeInsets(top: 10, leading: 16, bottom: 10, trailing: 16))
+                        .padding(20)
+                    } else {
+                        List(viewModel.notes) { note in
+                            NavigationLink {
+                                NoteDetailView(note: note, viewModel: viewModel)
+                            } label: {
+                                NoteRowView(note: note)
+                            }
+                            .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+                            .listRowSeparator(.hidden)
+                            .listRowBackground(Color.clear)
+                        }
+                        .scrollContentBackground(.hidden)
+                        .listStyle(.plain)
                     }
-                    .listStyle(.plain)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
@@ -58,6 +66,3 @@ struct NotesListView: View {
     }
 }
 
-#Preview {
-    NotesListView()
-}

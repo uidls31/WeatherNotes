@@ -10,8 +10,7 @@ struct AddNoteView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(uiColor: .systemGroupedBackground)
-                    .ignoresSafeArea()
+                AppGradientBackground(gradient: AppGradients.aurora)
 
                 VStack {
                     TextField("Title", text: $noteTitle)
@@ -19,7 +18,11 @@ struct AddNoteView: View {
                         .font(.headline)
                         .padding(.horizontal, 14)
                         .padding(.vertical, 12)
-                        .background(Color(uiColor: .secondarySystemGroupedBackground))
+                        .background(.ultraThinMaterial)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                .stroke(Color.white.opacity(0.22), lineWidth: 1)
+                        }
                         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                         .padding(.horizontal)
                         .padding(.top)
@@ -40,7 +43,11 @@ struct AddNoteView: View {
                     }
                     .frame(maxWidth: .infinity)
                     .frame(minHeight: 220, maxHeight: 320)
-                    .background(Color(uiColor: .secondarySystemGroupedBackground))
+                    .background(.ultraThinMaterial)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 12, style: .continuous)
+                            .stroke(Color.white.opacity(0.22), lineWidth: 1)
+                    }
                     .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                     .padding()
 
@@ -73,8 +80,4 @@ struct AddNoteView: View {
             }
         }
     }
-}
-
-#Preview {
-    AddNoteView(viewModel: NotesViewModel())
 }
