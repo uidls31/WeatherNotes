@@ -1,11 +1,12 @@
 import SwiftUI
 
 struct NotesListView: View {
-    @State private var notes: [WeatherNote] = WeatherNote.mockData
+    @StateObject private var viewModel = NotesViewModel()
+    @State private var isShowingAddNote = false
 
     var body: some View {
         NavigationStack {
-            List(notes) { note in
+            List(viewModel.notes) { note in
                 NavigationLink {
                     NoteDetailView(note: note)
                 } label: {
@@ -18,12 +19,15 @@ struct NotesListView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        print("Add note tapped")
+                        isShowingAddNote = true
                     } label: {
                         Image(systemName: "plus")
                     }
                     .accessibilityLabel("Add Note")
                 }
+            }
+            .sheet(isPresented: $isShowingAddNote) {
+                AddNoteView(viewModel: viewModel)
             }
         }
     }
