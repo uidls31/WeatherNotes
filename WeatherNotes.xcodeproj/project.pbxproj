@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		7E9F11512F9A587600D45F14 /* WeatherNotesCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7E9F114F2F9A587600D45F14 /* WeatherNotesCoreData.xcdatamodeld */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		7E9F10CD2F9A353300D45F14 /* WeatherNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E9F11502F9A587600D45F14 /* WeatherNotesCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WeatherNotesCoreData.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -32,6 +37,7 @@
 		7E9F10C42F9A353300D45F14 = {
 			isa = PBXGroup;
 			children = (
+				7E9F114F2F9A587600D45F14 /* WeatherNotesCoreData.xcdatamodeld */,
 				7E9F10CF2F9A353300D45F14 /* WeatherNotes */,
 				7E9F10CE2F9A353300D45F14 /* Products */,
 			);
@@ -119,6 +125,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E9F11512F9A587600D45F14 /* WeatherNotesCoreData.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,6 +339,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		7E9F114F2F9A587600D45F14 /* WeatherNotesCoreData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				7E9F11502F9A587600D45F14 /* WeatherNotesCoreData.xcdatamodel */,
+			);
+			currentVersion = 7E9F11502F9A587600D45F14 /* WeatherNotesCoreData.xcdatamodel */;
+			path = WeatherNotesCoreData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 7E9F10C52F9A353300D45F14 /* Project object */;
 }
